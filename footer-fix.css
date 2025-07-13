@@ -1,0 +1,67 @@
+/* Footer Social Links Fix */
+.footer .footer-section:first-child {
+    position: relative;
+    min-height: 200px;
+}
+
+.footer .footer-section:first-child p {
+    margin-bottom: 50px !important;
+}
+
+.footer .footer-section:first-child .social-links {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-top: 0 !important;
+    padding-top: 20px;
+}
+
+/* Alternative: Hide the problematic social links */
+.footer .footer-section:first-child .social-links {
+    display: none;
+}
+
+/* Add social links to footer bottom instead */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+}
+
+.footer-bottom::after {
+    content: '';
+    display: flex;
+    gap: 15px;
+    order: 2;
+}
+
+/* Create new social links in footer bottom */
+.footer-bottom-social {
+    display: flex;
+    gap: 15px;
+    order: 2;
+}
+
+.footer-bottom-social .social-link {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom-social .social-link:hover {
+    background: rgba(0, 191, 255, 0.2);
+    color: #00bfff;
+    transform: translateY(-2px);
+}
