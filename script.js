@@ -435,16 +435,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Add CSS animation for ripple effect
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(2);
-                    opacity: 0;
+        // Check if the style element already exists to prevent redeclaration
+        if (!document.getElementById('ripple-style')) {
+            const style = document.createElement('style');
+            style.id = 'ripple-style'; // Add an ID to easily check for its existence
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
                 }
-            }
-        `;
-        document.head.appendChild(style);
+            `;
+            document.head.appendChild(style);
+        }
         
         // Parallax effect for floating elements
         window.addEventListener('mousemove', (e) => {
@@ -462,18 +466,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Smooth scroll animation when cards come into view
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Ensure observerOptions and observer are declared only once
+        if (typeof observerOptions === 'undefined') {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+        }
         
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
-                }
+        if (typeof observer === 'undefined') {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    }
+                });
             });
-        }, observerOptions);
+        }
         
         document.querySelectorAll('.project-card').forEach(card => {
             card.style.opacity = '0';

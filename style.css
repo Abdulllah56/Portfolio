@@ -10,7 +10,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a35 100%);
+            color: #ffffff;
             overflow-x: hidden;
             min-height: 100vh;
         }
@@ -28,6 +29,22 @@
             transition: all 0.3s ease;
         }
 
+        .nav-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid #00d4ff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+            
         .navbar.scrolled {
             background: rgba(15, 15, 35, 0.98);
             border-bottom-color: rgba(0, 212, 255, 0.3);
