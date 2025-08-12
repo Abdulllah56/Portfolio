@@ -1,0 +1,24 @@
+[build]
+  publish = "."
+  command = "npm run build"
+
+[build.environment]
+  NODE_ENV = "production"
+
+[[functions]]
+  name = "server"
+  runtime = "nodejs18.x"
+
+[dev]
+  command = "npm run dev"
+  port = 3001
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
