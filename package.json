@@ -2,12 +2,13 @@
   "name": "resume-contact-server",
   "version": "1.0.0",
   "description": "Email contact form handler for resume site. Sends notification to owner and confirmation to user.",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "echo 'No build step required for backend'",
-    "heroku-postbuild": "echo 'Backend ready for deployment'"
+    "build": "echo 'No build step required for serverless functions'",
+    "vercel-build": "echo 'Vercel build complete'"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,7 +17,7 @@
     "nodemailer": "^6.9.14"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
   "keywords": ["nodejs", "express", "contact-form", "email", "portfolio"],

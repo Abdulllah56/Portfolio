@@ -1,30 +1,13 @@
 {
   "version": 2,
   "functions": {
-    "api/*.js": {
-      "runtime": "nodejs18.x"
+    "api/contact.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    },
+    "api/health.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 10
     }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://abdullah-developer-portfolio.vercel.app"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type"
-        }
-      ]
-    }
-  ]
+  }
 }

@@ -1,42 +1,11 @@
-const nodemailer = require('nodemailer');
-
-// CORS headers for all responses
-const corsHeaders = {
-  'Access-Control-Allow-Origin': process.env.NODE_ENV === 'production' 
-    ? 'https://abdullah-developer-portfolio.vercel.app'
-    : '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Credentials': 'true'
-};
-
-function createTransporter() {
-  const user = process.env.EMAIL_USER;
-  const pass = process.env.EMAIL_PASS;
-
-  if (!user || !pass) {
-    throw new Error('Missing EMAIL_USER or EMAIL_PASS in environment variables');
-  }
-
-  return nodemailer.createTransporter({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user,
-      pass: String(pass).replace(/\s+/g, ''),
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
-}
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   // Set CORS headers
-  Object.keys(corsHeaders).forEach(key => {
-    res.setHeader(key, corsHeaders[key]);
-  });
+  res.setHeader('Access-Control-Allow-Origin', 'https://abdullah-developer-portfolio.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
@@ -64,7 +33,28 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid email format' });
     }
 
-    const transporter = createTransporter();
+    // Check environment variables
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('Missing EMAIL_USER or EMAIL_PASS environment variables');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
+
+    // Create transporter
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS.replace(/\s+/g, ''),
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    });
+
+    // Verify transporter
+    await transporter.verify();
 
     // Email to site owner
     await transporter.sendMail({
@@ -129,22 +119,22 @@ Muhammad Abdullah`,
   } catch (error) {
     console.error('Email send error:', error);
     
-    // Return different error messages based on error type
-    if (error.message.includes('Missing EMAIL_USER')) {
+    // Return specific error messages
+    if (error.code === 'EAUTH') {
       return res.status(500).json({ 
-        error: 'Server configuration error. Please contact the administrator.' 
+        error: 'Email authentication failed. Please check your credentials.' 
       });
     }
     
-    if (error.code === 'EAUTH') {
+    if (error.code === 'ENOTFOUND') {
       return res.status(500).json({ 
-        error: 'Email authentication failed. Please try again later.' 
+        error: 'Email server not found. Please try again later.' 
       });
     }
     
     return res.status(500).json({ 
       error: 'Failed to send email. Please try again later.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      details: error.message
     });
   }
 }

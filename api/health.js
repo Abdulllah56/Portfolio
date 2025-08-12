@@ -1,18 +1,8 @@
-// CORS headers for all responses
-const corsHeaders = {
-  'Access-Control-Allow-Origin': process.env.NODE_ENV === 'production' 
-    ? 'https://abdullah-developer-portfolio.vercel.app'
-    : '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Credentials': 'true'
-};
-
 export default async function handler(req, res) {
   // Set CORS headers
-  Object.keys(corsHeaders).forEach(key => {
-    res.setHeader(key, corsHeaders[key]);
-  });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
@@ -27,6 +17,7 @@ export default async function handler(req, res) {
   return res.status(200).json({ 
     ok: true, 
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    hasEmailConfig: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS)
   });
 }
