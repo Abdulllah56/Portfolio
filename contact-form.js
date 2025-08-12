@@ -4,23 +4,15 @@
 
   function getApiBase() {
     // Optional: set window.CONTACT_API_BASE in production to override
-    // e.g., <script>window.CONTACT_API_BASE = 'https://your-api-domain.com';</script>
     if (window.CONTACT_API_BASE) return window.CONTACT_API_BASE;
 
     const host = window.location.hostname;
-    const protocol = window.location.protocol;
     
-    // Production detection
+    // For Vercel deployment, use same origin (no separate backend needed)
     if (host.includes('vercel.app') || host.includes('netlify.app') || host.includes('herokuapp.com') || 
         (!host.includes('localhost') && !host.includes('127.0.0.1'))) {
-      
-      // If on Vercel, use specific backend URL
-      if (host.includes('vercel.app')) {
-        return window.BACKEND_URL || 'https://abdullah-developer-portfolio-backend.vercel.app';
-      }
-      
-      // Production: Use environment variable or default backend URL
-      return window.BACKEND_URL || 'https://your-backend-domain.herokuapp.com';
+      // Production: Use same origin for API calls
+      return window.BACKEND_URL || '';
     }
     
     if (host === 'localhost' || host === '127.0.0.1') {
@@ -28,7 +20,7 @@
       return 'http://localhost:3001';
     }
 
-    // Default: same origin (useful if you reverse-proxy /api to the server in production)
+    // Default: same origin
     return '';
   }
 
@@ -50,8 +42,19 @@
       message: phone ? `${message}\n\nPhone: ${phone}` : message,
     };
 
+    // Show loading state
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton?.textContent;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+    }
+
     try {
-      const res = await fetch(`${getApiBase()}/api/contact`, {
+      const apiUrl = `${getApiBase()}/api/contact`;
+      console.log('Sending to:', apiUrl);
+      
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -63,12 +66,19 @@
       }
 
       const result = await res.json().catch(() => ({}));
-      console.log('Form submitted:', result);
+      console.log('Form submitted successfully:', result);
       form.reset();
-      alert('Message sent. Please check your email for confirmation.');
+      alert('Message sent successfully! Please check your email for confirmation.');
+      
     } catch (error) {
       console.error('Error submitting contact form:', error);
       alert('Error sending message. Please try again later.');
+    } finally {
+      // Reset button state
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText || 'Send Message';
+      }
     }
   });
 })();
