@@ -8,10 +8,10 @@
 
     const host = window.location.hostname;
     
-    // For Vercel deployment, use same origin (no separate backend needed)
+    // For production deployment, use same origin (no separate backend needed)
     if (host.includes('vercel.app') || host.includes('netlify.app') || host.includes('herokuapp.com') || 
         (!host.includes('localhost') && !host.includes('127.0.0.1'))) {
-      // Production: Use same origin for API calls
+      // Production: Use same origin for API calls (serverless functions)
       return window.BACKEND_URL || '';
     }
     
@@ -34,6 +34,20 @@
     const subject = document.getElementById('subject')?.value?.trim() || '';
     const message = document.getElementById('message')?.value?.trim() || '';
 
+    // Validate required fields
+    if (!firstname && !lastname) {
+      alert('Please enter your name.');
+      return;
+    }
+    if (!email) {
+      alert('Please enter your email address.');
+      return;
+    }
+    if (!message) {
+      alert('Please enter a message.');
+      return;
+    }
+
     const payload = {
       name: [firstname, lastname].filter(Boolean).join(' ') || 'Anonymous',
       email,
@@ -43,41 +57,70 @@
     };
 
     // Show loading state
-    const submitButton = form.querySelector('button[type="submit"]');
-    const originalText = submitButton?.textContent;
+    const submitButton = form.querySelector('button[type="submit"]') || form.querySelector('input[type="submit"]');
+    const originalText = submitButton?.textContent || submitButton?.value;
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
+      if (submitButton.textContent !== undefined) {
+        submitButton.textContent = 'Sending...';
+      } else {
+        submitButton.value = 'Sending...';
+      }
     }
 
     try {
       const apiUrl = `${getApiBase()}/api/contact`;
-      console.log('Sending to:', apiUrl);
+      console.log('Sending contact form to:', apiUrl);
+      console.log('Payload:', payload);
       
       const res = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Request failed with status ${res.status}`);
+      const responseText = await res.text();
+      console.log('Raw response:', responseText);
+
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse response as JSON:', parseError);
+        throw new Error('Invalid server response');
       }
 
-      const result = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(result.error || `Request failed with status ${res.status}`);
+      }
+
       console.log('Form submitted successfully:', result);
       form.reset();
       alert('Message sent successfully! Please check your email for confirmation.');
       
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      alert('Error sending message. Please try again later.');
+      
+      // Show specific error messages
+      if (error.message.includes('Failed to fetch')) {
+        alert('Network error. Please check your internet connection and try again.');
+      } else if (error.message.includes('authentication failed')) {
+        alert('There was a server configuration issue. Please try again later or contact the administrator.');
+      } else {
+        alert(`Error sending message: ${error.message}. Please try again later.`);
+      }
     } finally {
       // Reset button state
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = originalText || 'Send Message';
+        if (submitButton.textContent !== undefined) {
+          submitButton.textContent = originalText || 'Send Message';
+        } else {
+          submitButton.value = originalText || 'Send Message';
+        }
       }
     }
   });

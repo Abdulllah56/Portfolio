@@ -36,7 +36,11 @@ export default async function handler(req, res) {
     // Check environment variables
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error('Missing EMAIL_USER or EMAIL_PASS environment variables');
-      return res.status(500).json({ error: 'Server configuration error' });
+      return res.status(500).json({ 
+        error: 'Server configuration error - missing email credentials',
+        hasEmailUser: !!process.env.EMAIL_USER,
+        hasEmailPass: !!process.env.EMAIL_PASS
+      });
     }
 
     // Create transporter
@@ -53,8 +57,16 @@ export default async function handler(req, res) {
       }
     });
 
-    // Verify transporter
-    await transporter.verify();
+    // Verify transporter connection
+    try {
+      await transporter.verify();
+    } catch (verifyError) {
+      console.error('SMTP verification failed:', verifyError);
+      return res.status(500).json({ 
+        error: 'Email server connection failed',
+        details: verifyError.message
+      });
+    }
 
     // Email to site owner
     await transporter.sendMail({
@@ -76,7 +88,9 @@ ${message}`,
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject || 'N/A'}</p>
         <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <div style="background: #f5f5f5; padding: 15px; border-radius: 5px;">
+          ${message.replace(/\n/g, '<br>')}
+        </div>
       `
     });
 
@@ -98,16 +112,20 @@ ${message}
 Best regards,
 Muhammad Abdullah`,
       html: `
-        <h3>Thank you for contacting me!</h3>
-        <p>Hi ${name},</p>
-        <p>Thank you for reaching out! I have received your message and will get back to you as soon as possible.</p>
-        
-        <h4>Summary of your message:</h4>
-        <p><strong>Subject:</strong> ${subject || 'N/A'}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-        
-        <p>Best regards,<br>Muhammad Abdullah</p>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h3 style="color: #333;">Thank you for contacting me!</h3>
+          <p>Hi ${name},</p>
+          <p>Thank you for reaching out! I have received your message and will get back to you as soon as possible.</p>
+          
+          <h4 style="color: #555;">Summary of your message:</h4>
+          <p><strong>Subject:</strong> ${subject || 'N/A'}</p>
+          <p><strong>Message:</strong></p>
+          <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #007acc; margin: 10px 0;">
+            ${message.replace(/\n/g, '<br>')}
+          </div>
+          
+          <p style="margin-top: 30px;">Best regards,<br><strong>Muhammad Abdullah</strong></p>
+        </div>
       `
     });
 
@@ -119,22 +137,32 @@ Muhammad Abdullah`,
   } catch (error) {
     console.error('Email send error:', error);
     
-    // Return specific error messages
+    // Return specific error messages based on error type
     if (error.code === 'EAUTH') {
       return res.status(500).json({ 
-        error: 'Email authentication failed. Please check your credentials.' 
+        error: 'Email authentication failed. Please check your Gmail App Password.',
+        code: 'EAUTH'
       });
     }
     
     if (error.code === 'ENOTFOUND') {
       return res.status(500).json({ 
-        error: 'Email server not found. Please try again later.' 
+        error: 'Email server not found. Please try again later.',
+        code: 'ENOTFOUND'
+      });
+    }
+
+    if (error.code === 'ETIMEDOUT') {
+      return res.status(500).json({ 
+        error: 'Email server timeout. Please try again later.',
+        code: 'ETIMEDOUT'
       });
     }
     
     return res.status(500).json({ 
       error: 'Failed to send email. Please try again later.',
-      details: error.message
+      details: error.message,
+      code: error.code || 'UNKNOWN'
     });
   }
 }

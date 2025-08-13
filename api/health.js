@@ -18,6 +18,8 @@ export default async function handler(req, res) {
     ok: true, 
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    hasEmailConfig: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS)
+    hasEmailConfig: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS),
+    nodeVersion: process.version,
+    service: 'Abdullah Portfolio API'
   });
 }
