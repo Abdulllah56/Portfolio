@@ -20,7 +20,7 @@ const corsOptions = {
     ? [
         'https://abdullah-developer-portfolio.vercel.app',
         process.env.FRONTEND_URL,
-        'https://vercel.app'
+        'https://abdullah-developer-portfolio.vercel.app'
       ]
     : ['http://localhost:3000', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://localhost:5500'],
   credentials: true,
