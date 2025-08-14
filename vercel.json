@@ -2,15 +2,12 @@
   "version": 2,
   "functions": {
     "api/contact.js": {
-      "runtime": "nodejs18.x",
       "maxDuration": 30
     },
     "api/health.js": {
-      "runtime": "nodejs18.x",
       "maxDuration": 10
     },
     "api/test.js": {
-      "runtime": "nodejs18.x",
       "maxDuration": 10
     }
   }
