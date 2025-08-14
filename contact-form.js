@@ -99,18 +99,37 @@
 
       console.log('Form submitted successfully:', result);
       form.reset();
-      alert('Message sent successfully! Please check your email for confirmation.');
+      
+      // Show success message in UI instead of alert
+      const successMessage = document.getElementById('successMessage');
+      if (successMessage) {
+        successMessage.style.display = 'block';
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 5000);
+      }
       
     } catch (error) {
       console.error('Error submitting contact form:', error);
       
-      // Show specific error messages
-      if (error.message.includes('Failed to fetch')) {
-        alert('Network error. Please check your internet connection and try again.');
-      } else if (error.message.includes('authentication failed')) {
-        alert('There was a server configuration issue. Please try again later or contact the administrator.');
-      } else {
-        alert(`Error sending message: ${error.message}. Please try again later.`);
+      // Show error message in UI instead of alert
+      const errorMessage = document.getElementById('errorMessage');
+      if (errorMessage) {
+        // Set custom error message based on error type
+        if (error.message.includes('Failed to fetch')) {
+          errorMessage.textContent = '❌ Network error. Please check your internet connection and try again.';
+        } else if (error.message.includes('authentication failed')) {
+          errorMessage.textContent = '❌ There was a server configuration issue. Please try again later.';
+        } else {
+          errorMessage.textContent = `❌ Error sending message: ${error.message}. Please try again later.`;
+        }
+        
+        errorMessage.style.display = 'block';
+        // Hide error message after 5 seconds
+        setTimeout(() => {
+          errorMessage.style.display = 'none';
+        }, 5000);
       }
     } finally {
       // Reset button state

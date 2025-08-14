@@ -1,4 +1,4 @@
- * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -1920,8 +1920,8 @@
             text-align: center;
             font-weight: 600;
             margin-top: 20px;
-            opacity: 0;
-            transform: translateY(20px);
+            display: none;
+            opacity: 1;
             transition: all 0.3s ease;
         }
         
@@ -1939,8 +1939,8 @@
             text-align: center;
             font-weight: 600;
             margin-top: 20px;
-            opacity: 0;
-            transform: translateY(20px);
+            display: none;
+            opacity: 1;
             transition: all 0.3s ease;
         }
         
