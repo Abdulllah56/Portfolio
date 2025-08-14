@@ -1647,12 +1647,15 @@
 
          .contact-wrapper {
             max-width: 1200px;
+           
             margin: 0 auto;
+            
         }
         
         .contact-section-header {
             text-align: center;
             margin-bottom: 80px;
+            margin-top: 55px;
         }
         
         .contact-section-subtitle {
@@ -2095,6 +2098,7 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             position: relative;
             overflow: hidden;
+            margin-top: 35px;
             border-top: 1px solid rgba(0, 255, 255, 0.2);
         }
 

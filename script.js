@@ -466,28 +466,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Smooth scroll animation when cards come into view
-        // Ensure observerOptions and observer are declared only once
-        if (typeof observerOptions === 'undefined') {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-        }
+        // Define observer options
+        const projectObserverOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
         
-        if (typeof observer === 'undefined') {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
-                    }
-                });
+        // Create the intersection observer
+        const projectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
             });
-        }
+        }, projectObserverOptions);
         
+        // Observe all project cards
         document.querySelectorAll('.project-card').forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
-            observer.observe(card);
+            projectObserver.observe(card);
         });
         
         // Add fadeInUp animation
