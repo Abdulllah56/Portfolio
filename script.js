@@ -402,8 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add click animation to buttons
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
+                // Don't prevent default to allow links to work
                 // Create ripple effect
                 const ripple = document.createElement('span');
                 const rect = this.getBoundingClientRect();
