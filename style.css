@@ -87,7 +87,9 @@
             color: #94a3b8;
             text-decoration: none;
             border-radius: 50px;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
+            /* subtle accent border to match site colors */
+            border: 1px solid rgb(0, 187, 255) ;
             position: relative;
             overflow: hidden;
         }
@@ -110,6 +112,19 @@
         .nav-link:hover {
             color: #00d4ff;
             background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-2px);
+            /* make border more visible on hover */
+            border-color: rgba(0, 212, 255, 0.28);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.06);
+        }
+
+        /* keyboard focus state for accessibility */
+        .nav-link:focus-visible {
+            outline: none;
+            border-color: rgba(0, 212, 255, 0.45);
+            box-shadow: 0 6px 18px rgba(0, 212, 255, 0.12);
+            background: rgba(0, 212, 255, 0.08);
+            color: #00d4ff;
             transform: translateY(-2px);
         }
 
@@ -2415,3 +2430,4 @@
         .floating-element:nth-child(7) { left: 70%; animation-delay: 12s; }
         .floating-element:nth-child(8) { left: 80%; animation-delay: 14s; }
         .floating-element:nth-child(9) { left: 90%; animation-delay: 16s; }
+
