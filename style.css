@@ -997,10 +997,10 @@
         }
 
         .service-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #00d4ff, #7c3aed);
-            border-radius: 16px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 50%, #a855f7 100%);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1008,12 +1008,32 @@
             margin-bottom: 1.5rem;
             position: relative;
             z-index: 2;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 
+                0 8px 24px rgba(0, 212, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            animation: iconFloat 6s ease-in-out infinite;
+        }
+
+        .service-card:nth-child(1) .service-icon { animation-delay: 0s; }
+        .service-card:nth-child(2) .service-icon { animation-delay: 1s; }
+        .service-card:nth-child(3) .service-icon { animation-delay: 2s; }
+        .service-card:nth-child(4) .service-icon { animation-delay: 3s; }
+        .service-card:nth-child(5) .service-icon { animation-delay: 4s; }
+        .service-card:nth-child(6) .service-icon { animation-delay: 5s; }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
         }
 
         .service-card:hover .service-icon {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+            transform: scale(1.12) rotate(5deg) translateY(-4px);
+            box-shadow: 
+                0 16px 40px rgba(0, 212, 255, 0.35),
+                0 0 0 4px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
         }
 
         .service-title {
