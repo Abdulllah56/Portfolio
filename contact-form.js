@@ -69,7 +69,8 @@
     }
 
     try {
-      const apiUrl = `${getApiBase()}/api/contact`;
+      // Using FormSubmit API to send email directly without needing a custom backend
+      const apiUrl = 'https://formsubmit.co/ajax/muhammadabdullahbaig3750@gmail.com';
       console.log('Sending contact form to:', apiUrl);
       console.log('Payload:', payload);
       

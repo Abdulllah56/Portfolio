@@ -1130,17 +1130,17 @@
             box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
         }
 
-        .process-section {
+        /* ===== Tech Stack Breakdown ===== */
+        .techstack-section {
             margin-top: 6rem;
-            text-align: center;
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a35 100%);
-            padding: 3rem 2rem;
+            padding: 3.5rem 2.5rem;
             border-radius: 20px;
             position: relative;
             overflow: hidden;
         }
 
-        .process-section::before {
+        .techstack-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -1148,118 +1148,140 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 15% 30%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 85% 70%, rgba(124, 58, 237, 0.06) 0%, transparent 50%);
             pointer-events: none;
         }
 
-        .process-title {
+        .techstack-title {
             font-size: 2.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, #ffffff, #00d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 1.5s forwards;
+            text-align: center;
+            margin-bottom: 0.75rem;
             position: relative;
             z-index: 1;
         }
 
-        .process-steps {
+        .techstack-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .techstack-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .techstack-column {
+            position: relative;
+        }
+
+        .techstack-column-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .process-line {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
-            transform: translateY(-50%);
-            z-index: 1;
-            opacity: 0;
-            animation: lineExpand 2s ease-out 2s forwards;
+        .techstack-column-header h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            letter-spacing: 0.02em;
         }
 
-        @keyframes lineExpand {
-            from { width: 0; opacity: 0; }
-            to { width: 100%; opacity: 1; }
-        }
-
-        .process-step {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .techstack-column-indicator {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .frontend-indicator {
+            background: #00d4ff;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+        }
+
+        .backend-indicator {
+            background: #7c3aed;
+            box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+        }
+
+        .tools-indicator {
+            background: #22d3ee;
+            box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+        }
+
+        .techstack-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .techstack-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+            position: relative;
+        }
+
+        .techstack-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(6px);
+        }
+
+        .techstack-item:hover .techstack-item-icon {
+            transform: scale(1.15);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 16px rgba(0, 212, 255, 0.15);
+        }
+
+        .techstack-item-icon {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 2;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.8);
-            animation: popIn 0.5s ease-out forwards;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            flex-shrink: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .process-step:nth-child(2) { animation-delay: 1.8s; }
-        .process-step:nth-child(3) { animation-delay: 2s; }
-        .process-step:nth-child(4) { animation-delay: 2.2s; }
-        .process-step:nth-child(5) { animation-delay: 2.4s; }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+        .techstack-item span {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
-        .process-step:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: #00d4ff;
-            transform: scale(1.1);
+        .techstack-item:hover span {
+            color: #f1f5f9;
         }
 
-        .step-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #00d4ff;
-        }
+        /* ===== Tech Stack Responsive ===== */
 
-        .step-labels {
-            display: flex;
-            justify-content: space-between;
-            max-width: 800px;
-            margin: 2rem auto 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .step-label {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            text-align: center;
-            width: 80px;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out forwards;
-        }
-
-        .step-label:nth-child(1) { animation-delay: 2s; }
-        .step-label:nth-child(2) { animation-delay: 2.2s; }
-        .step-label:nth-child(3) { animation-delay: 2.4s; }
-        .step-label:nth-child(4) { animation-delay: 2.6s; }
-
-        /* Responsive styles for process section */
+        /* Responsive styles for tech stack & services section */
         @media (max-width: 768px) {
             .services-title {
                 font-size: 2rem;
@@ -1274,117 +1296,47 @@
                 padding: 2rem;
             }
             
-            .process-section {
+            .techstack-section {
                 margin-top: 4rem;
-                padding: 3rem 1.5rem;
-                background: linear-gradient(135deg, #0f0f23 0%, #1a1a35 100%) !important;
-                border-radius: 16px;
-                position: relative;
-                overflow: hidden;
+                padding: 2.5rem 1.5rem;
             }
             
-            .process-section::before {
-                background: 
-                    radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
-            }
-            
-            .process-title {
+            .techstack-title {
                 font-size: 2rem;
-                margin-bottom: 2.5rem;
-                opacity: 1 !important;
-                animation: none;
             }
-            
-            .process-steps {
-                flex-direction: column;
-                gap: 2.5rem;
-                max-width: 100%;
-                align-items: center;
-            }
-            
-            .process-line {
-                width: 3px;
-                height: calc(100% - 70px);
-                top: 35px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: linear-gradient(180deg, #00d4ff, #7c3aed);
-                opacity: 1 !important;
-                animation: none;
-            }
-            
-            .process-step {
-                width: 70px;
-                height: 70px;
-                background: rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(20px);
-                border: 2px solid rgba(0, 212, 255, 0.3);
-                opacity: 1 !important;
-                transform: scale(1) !important;
-                animation: none;
-            }
-            
-            .process-step:hover {
-                background: rgba(0, 212, 255, 0.15);
-                border-color: #00d4ff;
-                transform: scale(1.05) !important;
-            }
-            
-            .step-number {
-                font-size: 1.25rem;
-                color: #00d4ff;
-            }
-            
-            .step-labels {
-                flex-direction: column;
-                gap: 2.5rem;
-                align-items: center;
-                margin-top: 2rem;
-            }
-            
-            .step-label {
-                width: auto;
+
+            .techstack-subtitle {
                 font-size: 0.9rem;
-                color: #94a3b8;
-                opacity: 1 !important;
-                animation: none;
-                text-align: center;
-                font-weight: 500;
+                margin-bottom: 2rem;
+            }
+            
+            .techstack-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .techstack-column-header {
+                margin-bottom: 1rem;
+            }
+
+            .techstack-item {
+                padding: 0.6rem 0.75rem;
             }
         }
 
         @media (max-width: 480px) {
-            .process-section {
+            .techstack-section {
                 margin-top: 3rem;
-                padding: 1.5rem 0.75rem;
+                padding: 2rem 1rem;
             }
             
-            .process-title {
+            .techstack-title {
                 font-size: 1.75rem;
-                margin-bottom: 1.5rem;
             }
-            
-            .process-steps {
-                gap: 1.5rem;
-            }
-            
-            .process-step {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .step-number {
-                font-size: 1.1rem;
-            }
-            
-            .step-labels {
-                gap: 1.5rem;
-                margin-top: 1rem;
-            }
-            
-            .step-label {
-                font-size: 0.8rem;
+
+            .techstack-item-icon {
+                width: 36px;
+                height: 36px;
             }
         }
 
@@ -2160,7 +2112,7 @@
 
         .footer-main {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1.5fr 1fr 1.2fr;
             gap: 40px;
             margin-bottom: 40px;
         }
