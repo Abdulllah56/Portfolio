@@ -1029,7 +1029,7 @@
         .service-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 50%, #a855f7 100%);
+            background: linear-gradient(135deg, #00d4ff 0%, #00bcd4 50%, #0099cc 100%);
             border-radius: 20px;
             display: flex;
             align-items: center;
